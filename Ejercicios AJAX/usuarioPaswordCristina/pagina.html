@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio usuario Pasword</title>
+</head>
+
+<body>
+    <form action="pagina.html" method="post">
+        <input type="text" name="usuario" id="usuario">
+        <input type="password" name="clave" id="clave">
+        <button type="submit" name="btnLogin">Log in</button>
+        <div id="respuesta"></div>
+    </form>
+    <script>
+        var xmlhttp = new XMLHttpRequest();
+        var url = "pagina.json";
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                //document.getElementById("respuesta").innerHTML = this.responseText;
+                let json = JSON.parse(this.responseText);
+                console.log(json.usuario + " " + json.clave);
+                leerDatos(document.getElementById("respuesta"), json.usuario, json.clave);
+            }
+        };
+        xmlhttp.open("POST", url, true);
+        xmlhttp.send();
+        function leerDatos(parte, user, clave) {
+            let objeto = new Object();
+            if (document.getElementsByName("usuario") == user && document.getElementsByName("clave") == clave) {
+                parte.innerHTML = "USUARIO VÁLIDO";
+            } else {
+                parte.innerHTML = "USUARIO NO VÁLIDO";
+            }
+        }
+        /*$(document).ready(function () {
+            $("#btnLogin").click(function () {
+                $("#respuesta").html(data);
+            })
+        })*/
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Creación de una lista de nodos</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <ol id="lista">
+        <li>Perico</li>
+        <li>Juanico</li>
+        <ul>
+            <li>Jose</li>
+            <ul>
+                <li>Roman</li>
+                <li>Marco</li>
+                <li>Rodrigo</li>
+            </ul>
+            <li>Jose</li>
+            <li>Lorenzo</li>
+
+            <ul>
+                <li>Dimas</li>
+                <li>Gestas</li>
+                <li>Malakatos</li>
+                <li>Jose</li>
+            </ul>
+        </ul>
+        <li>Sofoclis</li>
+    </ol>
+    <script>
+        var xmlhttp = new XMLHttpRequest();
+        var url = "data.json";
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var listaNombres = JSON.parse(this.responseText);
+                console.log(this.responseText)
+                cambiaNombres(document.getElementById("lista"), listaNombres);
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+
+        function cambiaNombres(arr, listaNombres) {
+
+            if (arr.tagName == "LI") {
+                listaNombres.map(nombre => {
+                    if (arr.innerHTML.toUpperCase() == nombre.nombre) {
+                        arr.innerHTML = nombre.nuevoNombre;
+                    }
+                });
+                console.log(arr);
+            } else {
+                let lista = Array.from(arr.children);
+                lista.map(v => cambiaNombres(v, listaNombres));
+            }
+
+        }
+    </script>
+</body>
+
+</html>
